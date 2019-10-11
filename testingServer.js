@@ -1,5 +1,12 @@
 const http = require('http');
 const port = 80;
+const fs = require('fs');
+
+fs.unlink('/text.py', (err)=>{
+	if(err) throw err;
+	console.log("successfully deleted text.txt");
+});
+
 const server = http.createServer((req, res) => {
 	res.statusCode = 200;
 	res.setHeader('Content-Type', 'text/plain');
