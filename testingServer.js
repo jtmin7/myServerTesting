@@ -2,9 +2,9 @@ const http = require('http');
 const port = 80;
 const fs = require('fs');
 
-fs.unlink('/text.py', (err)=>{
+fs.writeFile('test.txt', 'hello world', (err) => {
 	if(err) throw err;
-	console.log("successfully deleted text.txt");
+	console.log('File write completed');
 });
 
 const server = http.createServer((req, res) => {
@@ -24,3 +24,14 @@ server.listen(port, (err)=> {
 setInterval(()=>{
 	console.log("Now Time is ", new Date());
 }, 2 * 1000);
+
+setTimeout(()=>{
+
+	fs.unlink('test.txt', (err)=>{
+		if(err) throw err;
+		console.log("successfully deleted text.txt");
+});
+
+
+
+;}, 1000);
