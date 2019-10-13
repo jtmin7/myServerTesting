@@ -2,11 +2,6 @@ const http = require('http');
 const port = 80;
 const fs = require('fs');
 
-fs.writeFile('test.txt', 'hello world', (err) => {
-	if(err) throw err;
-	console.log('File write completed');
-});
-
 const server = http.createServer((req, res) => {
 	res.statusCode = 200;
 	res.setHeader('Content-Type', 'text/plain');
@@ -21,9 +16,24 @@ server.listen(port, (err)=> {
 	console.log('Running Server');
 });
 
-setInterval(()=>{
-	console.log("Now Time is ", new Date());
-}, 2 * 1000);
+
+
+
+
+
+
+/*
+setTimeout(()=>{
+	fs.unlink('test.txt', (err)=>{
+		if(err) throw err;
+		console.log("successfully deleted text.txt");
+	});
+}, 1000);
+
+fs.writeFile('test.txt', 'hello world', (err) => {
+	if(err) throw err;
+	console.log('File write completed');
+});
 setTimeout(()=>{
 	fs.open('test.txt','a', (err, fd)=>{
 		if(err) throw err;
@@ -36,12 +46,4 @@ setTimeout(()=>{
 		});
 	});
 });
-/*
-setTimeout(()=>{
-	fs.unlink('test.txt', (err)=>{
-		if(err) throw err;
-		console.log("successfully deleted text.txt");
-	});
-}, 1000);
-
 */
