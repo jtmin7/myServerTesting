@@ -24,14 +24,24 @@ server.listen(port, (err)=> {
 setInterval(()=>{
 	console.log("Now Time is ", new Date());
 }, 2 * 1000);
-
 setTimeout(()=>{
-
+	fs.open('test.txt','a', (err, fd)=>{
+		if(err) throw err;
+		fs.write(fd, "\nhello this is new", (err, written)=>{
+			if(err) throw err;
+			console.log(written + "bytes written");
+			fs.close(fd, ()=>{
+				console.log('Done');
+			});
+		});
+	});
+});
+/*
+setTimeout(()=>{
 	fs.unlink('test.txt', (err)=>{
 		if(err) throw err;
 		console.log("successfully deleted text.txt");
-});
+	});
+}, 1000);
 
-
-
-;}, 1000);
+*/
