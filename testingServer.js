@@ -61,9 +61,13 @@ setTimeout(()=>{
 */
 
 
+
+
+
 // this code testing continuously writing
 let count = 0;
 const writeopen = fs.createWriteStream('contTest.txt', {flags: 'a'});
+// upper code 'a' is mean append. 'w' is existing content erase
 writeopen.on('open', (data)=>{
 	let str = "line: ";
 	setTimeout(()=>{
@@ -73,3 +77,32 @@ writeopen.on('open', (data)=>{
 		writeopen.write(str + count++ + "\n");
 	}, 1000);
 });
+
+
+
+
+// this code directory testing - create tempdir directory
+fs.mkdir('tempdir', (e)=>{
+	if(e){
+		throw e;
+	}
+	console.log("create tempdir directory");
+});
+// this code directory testing - create inner tempdir new directory 10 amount
+for(let i = 1; i< 5; i++){
+	fs.mkdir('tempdir/myfolder0' + i, (err)=>{
+		if(err){
+			throw err;
+		}
+		console.log("create child folder0" + i);
+	});
+} 
+// this code directory testing - read directory file list
+setTimeout(()=> {
+fs.readdir('tempdir', (err, files)=>{
+	if(err){
+		throw err;
+	}
+	console.log('read Directory: ', files); 
+});
+}, 1000);
