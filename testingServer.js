@@ -58,5 +58,18 @@ setTimeout(()=>{
 		console.log("successfully deleted text.txt");
 	});
 }, 1000);
-
 */
+
+
+// this code testing continuously writing
+let count = 0;
+const writeopen = fs.createWriteStream('contTest.txt', {flags: 'a'});
+writeopen.on('open', (data)=>{
+	let str = "line: ";
+	setTimeout(()=>{
+		console.log("start contTest.txt file continuously");
+	}, 0);
+	setInterval(()=>{
+		writeopen.write(str + count++ + "\n");
+	}, 1000);
+});
