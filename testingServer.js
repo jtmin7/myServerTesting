@@ -2,10 +2,23 @@ const http = require('http');
 const port = 80;
 const fs = require('fs');
 
+// this code safety fs
+const fd = fs.createWriteStream('data.txt', {flags: 'w'});
+
+// this code safety fs use
+fd.on('open', ()=>{
+	fd.write("data");
+	fd.end(()=>{
+		console.log("safety fs end");
+	});
+});
+
+ 
 fs.writeFile('test.txt', 'hello world', (err) => {
 	if(err) throw err;
 	console.log('File write completed');
 });
+
 
 const server = http.createServer((req, res) => {
 	res.statusCode = 200;
@@ -36,6 +49,8 @@ setTimeout(()=>{
 		});
 	});
 });
+
+fd.on
 /*
 setTimeout(()=>{
 	fs.unlink('test.txt', (err)=>{
