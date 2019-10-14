@@ -1,5 +1,5 @@
 const http = require('http');
-const port = 80;
+const port = 8000;
 const fs = require('fs');
 
 const server = http.createServer((req, res) => {
@@ -16,7 +16,9 @@ server.listen(port, (err)=> {
 	console.log('Running Server');
 });
 
-
+// **port 80: 127.0.0.1 
+// **port 8000: localhost:8000
+// **port 8800: localhost:8800
 
 
 
