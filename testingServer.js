@@ -1,12 +1,13 @@
 const fs = require('fs');
+let numReqs = 0;
 
 // **multiThread - make cluster
 const cluster = require('cluster');
 const http = require('http');
 // **master-Cluster position
 if(cluster.isMaster) {
+
 	var clusterArray = new Array();
-	let numReqs = 0;
 	// **child cluster notify signal num print
 	setInterval(()=>{
 		console.log('numReqs&cpuCores = (', numReqs, ', ' , numCPUs, ')');
@@ -51,6 +52,11 @@ if(cluster.isMaster) {
 	server.listen(8000);
 	console.log("cluster exec");
 
+	// **cluster -> master (send message)
+	setInterval(()=>{
+		process.send({cmd: 'notifyRequest'});
+	}, 2000);
+		
 	// **master -> cluster (receive message event)
 	process.on('message', (msg) =>{
 		console.log("cluster: message receive event");
@@ -73,7 +79,7 @@ if(cluster.isMaster) {
 
 
 
-
+/*
 // multiThread - make child Process
 // function: present directory list
 const exec = require('child_process').exec;
@@ -89,7 +95,7 @@ exec('ls -al', (error, stdout, stderr) =>{
 	console.log('stdout: ${stdout}');
 	console.log('stderr: ${stderr}');
 });
-
+*/
 /*
 const server = http.createServer((req, res) => {
 	res.statusCode = 200;
