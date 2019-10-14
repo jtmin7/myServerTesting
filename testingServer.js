@@ -2,6 +2,13 @@ const http = require('http');
 const port = 80;
 const fs = require('fs');
 
+
+fs.mkdir('outerDir', (err) =>{
+	if(err){
+		throw err;
+	}
+	console.log("create outerDir directory");
+});
 fs.writeFile('test.txt', 'hello world', (err) => {
 	if(err) throw err;
 	console.log('File write completed');
