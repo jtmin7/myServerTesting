@@ -4,3 +4,9 @@
 setInterval(()=>{
 	process.send('worker');
 }, 1000);
+// ** on purpose make error
+setTimeout(()=>{
+	error_function();
+}, 5000);
+
+

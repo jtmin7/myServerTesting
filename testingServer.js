@@ -5,7 +5,7 @@ const cluster = require('cluster');
 
 let count = 0;
 cluster.setupMaster({
-	// ** cluster fixation
+	// ** cluster Configuration 
 	exec: 'worker.js',
 });
 // ** make cluster
@@ -17,10 +17,23 @@ worker.on('message', (msg)=> {
 })
 .on('error', ()=> {
 	console.log("Error!");
+})
+.on('exit', (code, signal)=>{
+	if(signal){
+		console.log("worker was killed by signal: ${signal}");
+	}
+	else if(code != 0){
+		console.log("worker exited with error code: ${code}");
+	}
+	else{
+		console.log('worker success!');
+	}
 });
 
-
-
+// **p.72~74
+// node.js programming
+// by jung min suk
+// publish jpub
 
 
 
