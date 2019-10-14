@@ -2,6 +2,7 @@ const http = require('http');
 const port = 8000;
 const fs = require('fs');
 
+/*
 const server = http.createServer((req, res) => {
 	res.statusCode = 200;
 	res.setHeader('Content-Type', 'text/plain');
@@ -15,7 +16,7 @@ server.listen(port, (err)=> {
 	console.log(1, object_item);
 	console.log('Running Server');
 });
-
+*/
 // **port 80: 127.0.0.1 
 // **port 8000: localhost:8000
 // **port 8800: localhost:8800
