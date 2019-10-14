@@ -1,6 +1,29 @@
 const http = require('http');
 const port = 8000;
 const fs = require('fs');
+const cluster = require('cluster');
+
+let count = 0;
+cluster.setupMaster({
+	// ** cluster fixation
+	exec: 'worker.js',
+});
+// ** make cluster
+const worker = cluster.fork();
+// ** worker -> master (receive message)(master event)
+worker.on('message', (msg)=> {
+	console.log(msg, ": " , count);
+	count++;
+})
+.on('error', ()=> {
+	console.log("Error!");
+});
+
+
+
+
+
+
 
 /*
 const server = http.createServer((req, res) => {
