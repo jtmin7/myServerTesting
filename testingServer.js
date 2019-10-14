@@ -29,7 +29,7 @@ if(cluster.isMaster) {
 	Object.keys(cluster.workers).forEach((id)=>{
 		cluster.workers[id].on('message', messageHendler);
 	});
-	// **cluster -> master (accept message event)
+	// **cluster -> master (receive message event)
 	for(let i=0; i<numReqs; i++){
 		clusterArray[i].on(listening, (address)=>{
 			console.log("cluster -> master : messageAccept");
@@ -38,12 +38,27 @@ if(cluster.isMaster) {
 		});
 	}	
 // **cluster-Cluster position
-}else{
+}else if(cluster.isWorker){
+/*
 	http.Server((req, res)=> {
 		res.writeHead(200);
 		res.end('hello world\n');
 		process.send({ cmd: 'notifyRequest' });
 	}).listen(8000);
+*/
+	const net = require('net');
+	const server = net.createServer((socket)=>{});
+	server.listen(8000);
+	console.log("cluster exec");
+
+	// **master -> cluster (receive message event)
+	process.on('message', (msg) =>{
+		console.log("cluster: message receive event");
+		if(msg == 'recvmsg'){
+			console.log("cluster: message receive successful");
+		}	
+	});
+
 }
 // multiThread - make cluster
 // master-Cluster position
