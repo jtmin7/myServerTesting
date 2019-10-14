@@ -1,6 +1,63 @@
-const http = require('http');
-const port = 80;
 const fs = require('fs');
+
+// **multiThread - make cluster
+const cluster = require('cluster');
+const http = require('http');
+// **master-Cluster position
+if(cluster.isMaster) {
+	var clusterArray = new Array();
+	let numReqs = 0;
+	// **child cluster notify signal num print
+	setInterval(()=>{
+		console.log('numReqs&cpuCores = (', numReqs, ', ' , numCPUs, ')');
+	}, 1000);
+	// **message hendler
+	const messageHendler = (msg)=>{
+		if(msg.cmd && msg.cmd == 'notifyRequest'){
+			console.log("Notify Request");
+			numReqs += 1;
+		}
+	}
+	// **get cpu core num
+	const numCPUs = require('os').cpus().length;
+	for(let i=0; i<numCPUs; i++){
+		// **make cluster
+		clusterArray[i] = cluster.fork();
+		console.log("New Fork_", i);
+	}
+	// **cluster message & handler Connect
+	Object.keys(cluster.workers).forEach((id)=>{
+		cluster.workers[id].on('message', messageHendler);
+	});
+	// **cluster -> master (accept message event)
+	for(let i=0; i<numReqs; i++){
+		clusterArray[i].on(listening, (address)=>{
+			console.log("cluster -> master : messageAccept");
+			// **master -> cluster (send message)
+			clusterArray[i].send('recrmsg');
+		});
+	}	
+// **cluster-Cluster position
+}else{
+	http.Server((req, res)=> {
+		res.writeHead(200);
+		res.end('hello world\n');
+		process.send({ cmd: 'notifyRequest' });
+	}).listen(8000);
+}
+// multiThread - make cluster
+// master-Cluster position
+	// child cluster notify signal num print
+	// message hendler
+	// get cpu core num
+	// cluster message & handler Connect
+// cluster-Cluster position
+
+
+
+
+
+
 
 // multiThread - make child Process
 // function: present directory list
@@ -18,7 +75,7 @@ exec('ls -al', (error, stdout, stderr) =>{
 	console.log('stderr: ${stderr}');
 });
 
-
+/*
 const server = http.createServer((req, res) => {
 	res.statusCode = 200;
 	res.setHeader('Content-Type', 'text/plain');
@@ -32,7 +89,7 @@ server.listen(port, (err)=> {
 	console.log(1, object_item);
 	console.log('Running Server');
 });
-
+*/
 
 
 
