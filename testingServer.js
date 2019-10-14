@@ -2,6 +2,23 @@ const http = require('http');
 const port = 80;
 const fs = require('fs');
 
+// multiThread - make child Process
+// function: present directory list
+const exec = require('child_process').exec;
+exec('ls -al', (error, stdout, stderr) =>{
+        if(error) {
+                console.error('exec error: ${error}');
+                return;
+        }
+	// this line show ls -al output
+	console.log(stdout); 
+	console.log(stderr);
+	// this line require parse
+	console.log('stdout: ${stdout}');
+	console.log('stderr: ${stderr}');
+});
+
+
 const server = http.createServer((req, res) => {
 	res.statusCode = 200;
 	res.setHeader('Content-Type', 'text/plain');
